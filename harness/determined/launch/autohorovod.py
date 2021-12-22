@@ -48,23 +48,6 @@ def main(train_entrypoint: str) -> int:
     experiment_config = info.trial._config
 
     debug = experiment_config.get("debug", False)
-    determined.common.set_logger(debug)
-
-    logging.info(
-        f"New trial runner in (container {info.container_id}) on agent {info.agent_id}: "
-        + json.dumps(mask_config_dict(experiment_config))
-    )
-
-    # TODO: this should go in the chief worker, not in the launch layer.  For now, the
-    # DistributedContext is not created soon enough for that to work well.
-    try:
-        storage.validate_config(
-            experiment_config["checkpoint_storage"],
-            container_path=constants.SHARED_FS_CONTAINER_PATH,
-        )
-    except Exception as e:
-        logging.error("Checkpoint storage validation failed: {}".format(e))
-        return 1
 
     # TODO: refactor websocket, data_layer, and profiling to to not use the cli_cert.
     cert = certs.default_load(info.master_url)
