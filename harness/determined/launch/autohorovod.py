@@ -1,10 +1,10 @@
 """
-launch_autohorovod.py is the default launch layer for Determined.
+autohorovod.py is the default launch layer for Determined.
 
 It launches the entrypoint script under horovodrun when slots_per_trial>1, or as a regular
 subprocess otherwise.
 """
-
+import argparse
 import copy
 import json
 import logging
@@ -39,7 +39,7 @@ def mask_config_dict(d: Dict) -> Dict:
     return new_dict
 
 
-def main() -> int:
+def main(train_entrypoint: str) -> int:
     info = det.get_cluster_info()
     assert info is not None, "must be run on-cluster"
     assert info.task_type == "TRIAL", f'must be run with task_type="TRIAL", not "{info.task_type}"'
@@ -65,12 +65,6 @@ def main() -> int:
     except Exception as e:
         logging.error("Checkpoint storage validation failed: {}".format(e))
         return 1
-
-    if experiment_config.get("resources", {}).get("slots_per_trial", 1) < 2:
-        # Non-distriubuted training; skip running in subprocesses to improve startup times.
-        from determined.exec import harness
-
-        return harness.main(chief_ip=None)
 
     # TODO: refactor websocket, data_layer, and profiling to to not use the cli_cert.
     cert = certs.default_load(info.master_url)
@@ -183,7 +177,7 @@ def main() -> int:
         inter_node_network_interface=info.trial._inter_node_network_interface,
         optimizations=experiment_config["optimizations"],
         debug=debug,
-        optional_args=hvd_optional_args + sys.argv[1:],
+        optional_args=hvd_optional_args,
     )
 
     pid_client_cmd = [
@@ -206,6 +200,8 @@ def main() -> int:
         "determined.exec.harness",
         "--chief-ip",
         chief_ip,
+        "--train-entrypoint",
+        train_entrypoint
     ]
 
     logging.debug(f"chief worker calling horovodrun with args: {hvd_cmd[1:]} ...")
@@ -218,4 +214,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("train_entrypoint", type=str)
+    args = parser.parse_args()
+    sys.exit(main(args.train_entrypoint))

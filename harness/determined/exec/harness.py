@@ -30,7 +30,7 @@ def maybe_periodic_stacktraces(debug_enabled: bool) -> Iterator[None]:
             faulthandler.cancel_dump_traceback_later()
 
 
-def main(chief_ip: Optional[str]) -> int:
+def main(train_entrypoint: str, chief_ip: Optional[str]) -> int:
     info = det.get_cluster_info()
     assert info is not None, "must be run on-cluster"
     assert info.task_type == "TRIAL", f'must be run with task_type="TRIAL", not "{info.task_type}"'
@@ -81,7 +81,8 @@ def main(chief_ip: Optional[str]) -> int:
         # We can't build a core.Context until we have a RankInfo, and we can't build a RankInfo
         # without horovod, and we can't load the right horovod until we know which Trial class the
         # user implemented.
-        trial_class, controller_class = load.get_trial_and_controller_class(env.experiment_config)
+        trial_class, controller_class = load.get_trial_and_controller_class(env.experiment_config,
+                                                                            train_entrypoint)
 
         # Step 2: Initialize framework-specific details (horovod, random seeds, etc).
         distributed_backend = det._DistributedBackend()
@@ -127,5 +128,6 @@ def main(chief_ip: Optional[str]) -> int:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--chief-ip")
+    parser.add_argument("--train-entrypoint")
     args = parser.parse_args()
-    sys.exit(main(args.chief_ip))
+    sys.exit(main(args.train_entrypoint, args.chief_ip))

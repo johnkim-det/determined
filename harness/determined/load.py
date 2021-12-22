@@ -150,11 +150,12 @@ def get_trial_controller_class(trial_class: Type[det.Trial]) -> Type[det.TrialCo
 
 def get_trial_and_controller_class(
     experiment_config: det.ExperimentConfig,
+    train_entrypoint: str,
 ) -> Tuple[Type[det.Trial], Type[det.TrialController]]:
     if experiment_config.native_enabled():
         command = experiment_config["internal"]["native"]["command"]  # type: List[str]
         trial_class = get_trial_class_from_native(command)
     else:
-        trial_class = trial_class_from_entrypoint(experiment_config["entrypoint"])
+        trial_class = trial_class_from_entrypoint(train_entrypoint)
 
     return trial_class, get_trial_controller_class(trial_class)
