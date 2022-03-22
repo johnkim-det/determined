@@ -3449,11 +3449,17 @@ export interface V1Model {
      */
     labels?: Array<string>;
     /**
-     * User who created this model.
+     * Username for user who created this model.
      * @type {string}
      * @memberof V1Model
      */
     username: string;
+    /**
+     * Id for user who created this model.
+     * @type {number}
+     * @memberof V1Model
+     */
+    userId?: number;
     /**
      * Whether this model is archived or not.
      * @type {boolean}
@@ -3529,11 +3535,17 @@ export interface V1ModelVersion {
      */
     comment?: string;
     /**
-     * User who created this model version.
+     * Username for user who created this model version.
      * @type {string}
      * @memberof V1ModelVersion
      */
     username: string;
+    /**
+     * Id for user who created this model version.
+     * @type {number}
+     * @memberof V1ModelVersion
+     */
+    userId?: number;
     /**
      * Labels associated with this model version.
      * @type {Array<string>}

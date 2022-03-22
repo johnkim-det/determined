@@ -13,6 +13,7 @@ interface Props {
   hideTooltip?: boolean;
   large?: boolean;
   name?: string;
+  userId?: number;
   username?: string;
 }
 
@@ -36,13 +37,19 @@ const getColor = (name = ''): string => {
   return hsl2str({ ...hslColor, l: 50 });
 };
 
-const Avatar: React.FC<Props> = ({ hideTooltip, name, large, username }: Props) => {
+const Avatar: React.FC<Props> = ({ hideTooltip, name, large, username, userId }: Props) => {
   const [ displayName, setDisplayName ] = useState('');
   const { users } = useStore();
   const fetchUsers = useFetchUsers(new AbortController());
 
   useEffect(() => {
-    if (!name && username) {
+    if (!name && userId) {
+      if (!users.length) {
+        fetchUsers();
+      }
+      const user = users.find(user => user.id === userId);
+      setDisplayName(getDisplayName(user));
+    } else if (!name && !userId && username) {
       if (!users.length) {
         fetchUsers();
       }
@@ -51,7 +58,7 @@ const Avatar: React.FC<Props> = ({ hideTooltip, name, large, username }: Props) 
     } else if (name) {
       setDisplayName(name);
     }
-  }, [ fetchUsers, username, name, users ]);
+  }, [ fetchUsers, userId, username, name, users ]);
 
   const style = { backgroundColor: getColor(displayName) };
   const classes = [ css.base ];

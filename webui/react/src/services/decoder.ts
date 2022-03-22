@@ -204,6 +204,7 @@ export const mapV1Model = (model: Sdk.V1Model): types.ModelItem => {
     name: model.name,
     notes: model.notes,
     numVersions: model.numVersions,
+    userId: model.userId || 0,
     username: model.username,
   };
 };
@@ -222,6 +223,7 @@ export const mapV1ModelVersion = (
     model: mapV1Model(modelVersion.model),
     name: modelVersion.name,
     notes: modelVersion.notes,
+    userId: modelVersion.userId || 0,
     username: modelVersion.username,
     version: modelVersion.version,
   };

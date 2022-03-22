@@ -2842,6 +2842,7 @@ class v1Model:
         description: "typing.Optional[str]" = None,
         labels: "typing.Optional[typing.Sequence[str]]" = None,
         notes: "typing.Optional[str]" = None,
+        userId: "typing.Optional[int]" = None,
     ):
         self.name = name
         self.description = description
@@ -2852,6 +2853,7 @@ class v1Model:
         self.numVersions = numVersions
         self.labels = labels
         self.username = username
+        self.userId = userId
         self.archived = archived
         self.notes = notes
 
@@ -2867,6 +2869,7 @@ class v1Model:
             numVersions=obj["numVersions"],
             labels=obj.get("labels", None),
             username=obj["username"],
+            userId=obj.get("userId", None),
             archived=obj.get("archived", None),
             notes=obj.get("notes", None),
         )
@@ -2882,6 +2885,7 @@ class v1Model:
             "numVersions": self.numVersions,
             "labels": self.labels if self.labels is not None else None,
             "username": self.username,
+            "userId": self.userId if self.userId is not None else None,
             "archived": self.archived if self.archived is not None else None,
             "notes": self.notes if self.notes is not None else None,
         }
@@ -2901,6 +2905,7 @@ class v1ModelVersion:
         metadata: "typing.Optional[typing.Dict[str, typing.Any]]" = None,
         name: "typing.Optional[str]" = None,
         notes: "typing.Optional[str]" = None,
+        userId: "typing.Optional[int]" = None,
     ):
         self.model = model
         self.checkpoint = checkpoint
@@ -2912,6 +2917,7 @@ class v1ModelVersion:
         self.lastUpdatedTime = lastUpdatedTime
         self.comment = comment
         self.username = username
+        self.userId = userId
         self.labels = labels
         self.notes = notes
 
@@ -2928,6 +2934,7 @@ class v1ModelVersion:
             lastUpdatedTime=obj.get("lastUpdatedTime", None),
             comment=obj.get("comment", None),
             username=obj["username"],
+            userId=obj.get("userId", None),
             labels=obj.get("labels", None),
             notes=obj.get("notes", None),
         )
@@ -2944,6 +2951,7 @@ class v1ModelVersion:
             "lastUpdatedTime": self.lastUpdatedTime if self.lastUpdatedTime is not None else None,
             "comment": self.comment if self.comment is not None else None,
             "username": self.username,
+            "userId": self.userId if self.userId is not None else None,
             "labels": self.labels if self.labels is not None else None,
             "notes": self.notes if self.notes is not None else None,
         }

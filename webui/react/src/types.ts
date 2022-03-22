@@ -502,6 +502,7 @@ export interface ModelItem {
   name: string;
   notes?: string;
   numVersions: number;
+  userId: number;
   username: string;
 }
 
@@ -516,6 +517,7 @@ export interface ModelVersion {
   model: ModelItem;
   name?: string;
   notes?: string;
+  userId: number;
   username: string;
   version: number;
 }
