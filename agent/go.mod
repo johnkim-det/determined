@@ -12,7 +12,7 @@ require (
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/google/uuid v1.3.0
-	github.com/gorilla/websocket v1.4.2
+	github.com/gorilla/websocket v1.5.0
 	github.com/labstack/echo/v4 v4.6.3
 	github.com/pkg/errors v0.9.1
 	github.com/shirou/gopsutil v2.19.9+incompatible
@@ -25,7 +25,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/determined-ai/determined/proto v0.0.0-00010101000000-000000000000
 	github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3
 	github.com/stretchr/testify v1.8.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho v0.29.0
