@@ -5,7 +5,7 @@ go 1.20
 require (
 	cloud.google.com/go v0.94.0
 	github.com/Masterminds/sprig/v3 v3.2.2
-	github.com/aws/aws-sdk-go v1.40.34
+	github.com/aws/aws-sdk-go v1.44.214
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
 	github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f
 	github.com/davecgh/go-spew v1.1.1
